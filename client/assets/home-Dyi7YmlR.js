@@ -1,0 +1,1 @@
+import{w as t}from"./with-props-BurUXKPG.js";import{o as e}from"./chunk-AYJ5UCUI-BJpQ5qTT.js";function a({}){return[{title:"New React Router App"},{name:"description",content:"Welcome to React Router!"}]}const c=t(function(){return e.jsx("h1",{className:"text-center pt-20",children:"Peerlist challange"})});export{c as default,a as meta};
