@@ -4,6 +4,22 @@ import FluidMenu from "./FluidMenu";
 import { motion, useAnimation, useScroll } from "motion/react";
 import arrowDownLogo from "./assets/arrowDown.svg";
 import { useEffect } from "react";
+import AnimatedCheckboxes from "./AnimatedCheckboxes";
+import AnimatedToggles from "./AnimatedToggles";
+import SharedLayoutTabs from "./SharedLayoutTabs";
+
+const toggles = [
+  { id: "toggle1", label: "Free" },
+  {
+    id: "toggle2",
+    label: "Premium",
+    children: [
+      { id: "toggle1-1", label: "Monthly" },
+      { id: "toggle1-2", label: "Annual" },
+    ],
+  },
+];
+
 function App() {
   const { scrollYProgress } = useScroll();
   const controls = useAnimation();
@@ -80,9 +96,24 @@ function App() {
           <h1 className="place-self-center m-auto">Fluid Menu Animation</h1>
         </div>
 
-        <div className="h-screen w-full place-self-center">
+        <div className="h-screen w-full place-self-center border-b-4">
           <h1 className="m-auto mt-[40vh]">Dynamic Status Indicator</h1>
           <DynamicStatusIndicator />
+        </div>
+        <div className="h-screen w-full place-self-center border-b-4">
+          <h1 className="m-auto mt-[30vh]">Animated Checkboxes</h1>
+          <AnimatedCheckboxes />
+        </div>
+
+        <div className="h-screen w-full place-self-center border-b-4">
+          <h1 className="m-auto mt-[30vh]">Animated Toggles</h1>
+          <div className="w-100 m-auto mt-10">
+            <AnimatedToggles toggles={toggles} />
+          </div>
+        </div>
+        <div className="h-screen w-full place-self-center">
+          <h1 className="m-auto mt-[20vh] mb-10">Shared Layout Tabs</h1>
+          <SharedLayoutTabs />
         </div>
       </div>
     </>
