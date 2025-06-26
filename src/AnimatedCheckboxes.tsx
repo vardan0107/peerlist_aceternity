@@ -1,7 +1,7 @@
-import { motion } from "motion/react";
+import { AnimatePresence, motion, useAnimate } from "motion/react";
 
 import checkBox from "./assets/checkbox.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 function AnimatedCheckboxes() {
   const [todoList, setTodoList] = useState([
     { id: 1, text: "Learn React", checked: false },
@@ -31,9 +31,18 @@ function AnimatedCheckboxes() {
   return (
     <div className="text-left w-fit m-auto mt-10 bg-white p-6 rounded-lg">
       {todoList.map((todo) => {
+        const [scope, animate] = useAnimate();
+        useEffect(() => {
+          animate(
+            scope.current,
+            { x: [0, -5, 5, -5, 5, 0] },
+            { duration: 0.5 }
+          );
+        }, [todo.checked]);
         return (
           <div
             className="flex hover:bg-[#dfdddd] mb-2 w-fit rounded-lg pl-2 pr-2 cursor-pointer"
+            key={`${todo.id}-container`}
             onClick={() => handleCheckboxClick(todo.id)}
           >
             <div className="relative w-7 h-7 m-2">
@@ -58,7 +67,7 @@ function AnimatedCheckboxes() {
                   animate={
                     todo.checked ? pathVariants.hidden : pathVariants.visible
                   }
-                  transition={{ duration: 1 }}
+                  transition={{ duration: 0.5, delay: todo.checked ? 0 : 0.5 }}
                 />
               </motion.svg>
 
@@ -73,16 +82,29 @@ function AnimatedCheckboxes() {
                     ? checkBoxVariants.visible
                     : checkBoxVariants.hidden
                 }
+                transition={{ delay: 0.5 }}
               />
             </div>
             <motion.div
-              key={`${todo.checked}-${todo.id}`}
+              ref={scope}
               className={`m-2 ${
-                todo.checked ? "text-gray-500 line-through" : "text-black"
-              }`}
-              initial={{ x: 0, opacity: 1 }}
-              animate={{ x: [0, -5, 5, -5, 5, 0] }}
+                todo.checked ? "text-gray-500" : "text-black"
+              } relative`}
+              initial={false}
             >
+              <AnimatePresence mode="wait" initial={false}>
+                {todo.checked && (
+                  <motion.div
+                    className="h-0.5 w-full absolute top-1/2 bg-gray-500"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    exit={{ scaleX: 0 }}
+                    transition={{ duration: 0.5 }}
+                    style={{ transformOrigin: "left" }}
+                  />
+                )}
+              </AnimatePresence>
+
               {todo.text}
             </motion.div>
           </div>
